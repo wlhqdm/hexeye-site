@@ -1,4 +1,4 @@
-﻿# HexEye site
+# HexEye site
 
 Public landing page for **HexEye / 海克斯眼** (Riot product URL + Privacy/Terms).
 
