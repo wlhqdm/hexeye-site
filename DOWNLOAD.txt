@@ -1,0 +1,21 @@
+HexEye / 海克斯眼 — download notes
+================================
+
+Official landing: https://wlhqdm.github.io/hexeye-site/
+Privacy: https://wlhqdm.github.io/hexeye-site/privacy.html
+Terms:   https://wlhqdm.github.io/hexeye-site/terms.html
+
+Windows builds are attached to GitHub Releases on this repository when published.
+If no .zip is attached yet, open an Issue titled "Reviewer build request" and we will provide a testable package.
+
+Run requirements
+----------------
+- Windows 10/11
+- Run HexEye.exe as Administrator
+- Start League of Legends first
+- Use Windowed or Borderless display mode (not exclusive fullscreen)
+
+Riot disclaimer
+---------------
+HexEye isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games
+or anyone officially involved in producing or managing Riot Games properties.

@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>HexEye · 海克斯眼</title>
-  <meta name="description" content="HexEye（海克斯眼）— League of Legends 海克斯大乱斗三选一识别助手。本机只读，非 Riot 官方产品。" />
+  <meta name="description" content="HexEye (海克斯眼) — unofficial League of Legends Hextech Mayhem augment helper. Local read-only. Not endorsed by Riot Games." />
   <link rel="icon" href="icon.png" type="image/png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -14,30 +14,50 @@
       --bg0: #050a14;
       --bg1: #0a1628;
       --cyan: #3de8ff;
-      --cyan-dim: #1a9bb8;
       --gold: #e8c547;
       --text: #e8f4ff;
       --muted: #8aa0b8;
       --line: rgba(61, 232, 255, 0.22);
+      --warn: #f0d78c;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html, body {
+    html { scroll-behavior: smooth; }
+    body {
       min-height: 100%;
       background: var(--bg0);
       color: var(--text);
       font-family: "Noto Sans SC", system-ui, sans-serif;
       line-height: 1.55;
     }
-
     a { color: var(--cyan); text-underline-offset: 3px; }
     a:hover { color: #9af3ff; }
+    code {
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: 0.92em;
+      color: var(--gold);
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: 0.65rem 1rem;
+      background: rgba(5, 10, 20, 0.92);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(8px);
+      font-size: 0.9rem;
+    }
+    .topbar a { text-decoration: none; color: var(--muted); font-weight: 600; }
+    .topbar a:hover { color: var(--cyan); }
 
     .hero {
       position: relative;
-      min-height: 100vh;
-      min-height: 100dvh;
+      min-height: 88vh;
+      min-height: 88dvh;
       display: grid;
       align-items: end;
       overflow: hidden;
@@ -46,7 +66,6 @@
         radial-gradient(ellipse 60% 40% at 70% 80%, rgba(232, 197, 71, 0.08), transparent 55%),
         linear-gradient(180deg, var(--bg1) 0%, var(--bg0) 100%);
     }
-
     .hero-visual {
       position: absolute;
       inset: 0;
@@ -54,19 +73,16 @@
       place-items: center;
       pointer-events: none;
     }
-
     .hero-visual img {
-      width: min(72vw, 520px);
+      width: min(68vw, 480px);
       height: auto;
       filter: drop-shadow(0 0 48px rgba(61, 232, 255, 0.25));
       animation: float 7s ease-in-out infinite;
     }
-
     @keyframes float {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-10px); }
     }
-
     .hero-fade {
       position: absolute;
       inset: auto 0 0 0;
@@ -74,21 +90,18 @@
       background: linear-gradient(180deg, transparent, var(--bg0) 72%);
       pointer-events: none;
     }
-
     .hero-copy {
       position: relative;
       z-index: 1;
       width: min(920px, calc(100% - 2.5rem));
-      margin: 0 auto 4.5rem;
+      margin: 0 auto 3.2rem;
       text-align: center;
       animation: rise 0.9s ease-out both;
     }
-
     @keyframes rise {
       from { opacity: 0; transform: translateY(18px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
     .brand {
       font-family: Orbitron, sans-serif;
       font-weight: 700;
@@ -97,7 +110,6 @@
       color: var(--cyan);
       text-shadow: 0 0 40px rgba(61, 232, 255, 0.35);
     }
-
     .brand-zh {
       display: block;
       margin-top: 0.35rem;
@@ -107,19 +119,23 @@
       letter-spacing: 0.35em;
       color: var(--gold);
     }
-
     .lede {
       margin: 1.1rem auto 0;
-      max-width: 34rem;
+      max-width: 36rem;
       color: var(--muted);
       font-size: 1.05rem;
     }
-
+    .cta-row {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+    }
     .cta {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      margin-top: 1.6rem;
       padding: 0.85rem 1.55rem;
       border: 1px solid var(--cyan);
       background: rgba(61, 232, 255, 0.12);
@@ -129,13 +145,16 @@
       letter-spacing: 0.04em;
       transition: background 0.2s ease, transform 0.2s ease;
     }
-
     .cta:hover {
       background: rgba(61, 232, 255, 0.22);
       color: #fff;
       transform: translateY(-1px);
     }
-
+    .cta.ghost {
+      background: transparent;
+      border-color: rgba(138, 160, 184, 0.45);
+      color: var(--muted);
+    }
     .cta-note {
       margin-top: 0.7rem;
       font-size: 0.85rem;
@@ -147,13 +166,10 @@
       margin: 0 auto;
       padding: 0 0 4rem;
     }
-
     section {
-      padding: 2.4rem 0;
+      padding: 2.2rem 0;
       border-top: 1px solid var(--line);
-      animation: rise 1s ease-out 0.15s both;
     }
-
     h2 {
       font-family: Orbitron, sans-serif;
       font-size: 1.05rem;
@@ -161,16 +177,39 @@
       color: var(--gold);
       margin-bottom: 0.85rem;
     }
-
     p + p { margin-top: 0.85rem; }
     .muted { color: var(--muted); }
-
     ul {
       margin: 0.85rem 0 0 1.1rem;
       color: var(--muted);
     }
-
     li + li { margin-top: 0.35rem; }
+
+    .notice {
+      border: 1px solid rgba(232, 197, 71, 0.45);
+      background: rgba(232, 197, 71, 0.08);
+      padding: 1.1rem 1.15rem;
+      color: var(--warn);
+      font-size: 0.95rem;
+    }
+    .legal-box {
+      border: 1px solid var(--line);
+      background: rgba(61, 232, 255, 0.05);
+      padding: 1.15rem 1.2rem;
+    }
+    .legal-box h3 {
+      font-size: 0.95rem;
+      color: var(--cyan);
+      margin-bottom: 0.55rem;
+    }
+    .legal-box p {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .en {
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
 
     footer {
       border-top: 1px solid var(--line);
@@ -179,7 +218,6 @@
       color: var(--muted);
       font-size: 0.82rem;
     }
-
     footer nav {
       display: flex;
       gap: 1.2rem;
@@ -187,16 +225,23 @@
       flex-wrap: wrap;
       margin-bottom: 0.9rem;
     }
-
     .disclaimer {
       max-width: 48rem;
-      margin: 0 auto;
-      font-size: 0.78rem;
-      line-height: 1.5;
+      margin: 0.75rem auto 0;
+      font-size: 0.8rem;
+      line-height: 1.55;
     }
   </style>
 </head>
 <body>
+  <nav class="topbar" aria-label="Legal">
+    <a href="#download">Download</a>
+    <a href="#product">Product</a>
+    <a href="#disclaimer">Disclaimer</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+  </nav>
+
   <header class="hero">
     <div class="hero-visual" aria-hidden="true">
       <img src="logo.png" alt="" width="1024" height="1024" />
@@ -204,19 +249,71 @@
     <div class="hero-fade" aria-hidden="true"></div>
     <div class="hero-copy">
       <h1 class="brand">HexEye<span class="brand-zh">海克斯眼</span></h1>
-      <p class="lede">海克斯大乱斗三选一识别助手。本机只读状态，优先低延迟事件；战斗默认不截屏。</p>
-      <a class="cta" href="https://github.com/wlhqdm/hexeye-site/releases">获取 HexEye</a>
-      <p class="cta-note">Windows 客户端 · 需管理员运行 · 窗口化/无边框</p>
+      <p class="lede">海克斯大乱斗三选一识别助手。本机只读，优先低延迟事件；战斗默认不截屏。</p>
+      <div class="cta-row">
+        <a class="cta" href="#download">获取 HexEye</a>
+        <a class="cta ghost" href="#disclaimer">免责声明</a>
+      </div>
+      <p class="cta-note">Unofficial · Free tier · Windows · Not affiliated with Riot Games</p>
     </div>
   </header>
 
   <main>
+    <section id="disclaimer">
+      <h2>DISCLAIMER / 免责声明</h2>
+      <div class="legal-box">
+        <h3>Required Riot notice</h3>
+        <p>
+          HexEye / 海克斯眼 isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games
+          or anyone officially involved in producing or managing Riot Games properties. Riot Games and all
+          associated properties are trademarks or registered trademarks of Riot Games, Inc.
+        </p>
+        <p style="margin-top:0.85rem">
+          本产品为非官方第三方工具，与 Riot Games 无隶属或背书关系。请同时遵守
+          <a href="https://www.riotgames.com/en/terms-of-service" rel="noopener">Riot Terms of Service</a>
+          与适用的第三方政策。完整条款见
+          <a href="terms.html">Terms</a> · 隐私见 <a href="privacy.html">Privacy</a>。
+        </p>
+      </div>
+    </section>
+
+    <section id="download">
+      <h2>DOWNLOAD / 获取</h2>
+      <p class="notice">
+        Windows 安装包通过 GitHub Releases 发布。若下方按钮暂无附件，请打开 Releases 页查看最新资源，或在仓库 Issues 联系获取评审用构建。
+      </p>
+      <div class="cta-row" style="justify-content:flex-start;margin-top:1rem">
+        <a class="cta" href="https://github.com/wlhqdm/hexeye-site/releases/latest">打开最新 Release</a>
+        <a class="cta ghost" href="https://github.com/wlhqdm/hexeye-site">查看仓库</a>
+      </div>
+      <ul>
+        <li>以<strong>管理员</strong>运行 <code>HexEye.exe</code></li>
+        <li>先启动英雄联盟客户端，再启动助手</li>
+        <li>显示模式：窗口化或无边框（勿用独占全屏）</li>
+        <li>免费档可用；不强制付费解锁核心提示</li>
+      </ul>
+    </section>
+
+    <section id="product">
+      <h2>PRODUCT (EN — for reviewers)</h2>
+      <p class="en">
+        HexEye is a local Windows helper for League of Legends <strong>Hextech Mayhem</strong> augment selection.
+        It reads the local League Client (LCU) and Live Client Data in a <strong>read-only</strong> manner,
+        shows ranked augment prompts on an overlay, and prefers Overwolf Game Events when approved.
+        When GEP is unavailable it uses short, event-gated OCR bursts only (combat default: no continuous capture).
+      </p>
+      <p class="en">
+        HexEye does <strong>not</strong> modify game files, inject into game memory for cheats, provide boosting,
+        gambling, or other integrity-breaking features. It is intended as an informational overlay with a free tier.
+      </p>
+    </section>
+
     <section>
       <h2>WHAT IT DOES</h2>
       <p>在英雄联盟<strong>海克斯大乱斗</strong>对局中，帮助识别三选一海克斯并展示评级提示。选人阶段可读取候补席做参考排序。</p>
       <ul>
         <li>本机 LCU / Live Client Data <strong>只读</strong></li>
-        <li>优先 Overwolf GEP 事件（获批后）；未获批时用短突发 OCR 兜底</li>
+        <li>优先 Overwolf GEP；未获批时用短突发 OCR 兜底</li>
         <li>战斗默认 <strong>0Hz 截屏</strong>，避免拖垮 FPS</li>
       </ul>
     </section>
@@ -224,21 +321,16 @@
     <section>
       <h2>WHAT IT DOES NOT</h2>
       <ul>
-        <li>不修改游戏客户端、不读写游戏内存外挂</li>
+        <li>不修改游戏客户端、不提供内存外挂</li>
         <li>不提供代练、下注或破坏公平竞技的功能</li>
         <li>不收集其他玩家隐私用于未声明用途</li>
       </ul>
-    </section>
-
-    <section>
-      <h2>GET STARTED</h2>
-      <p class="muted">从本页「获取 HexEye」下载发行包。以管理员身份运行 <code>HexEye.exe</code>，先开英雄联盟客户端，再开助手。显示模式请用窗口化或无边框。</p>
-      <p class="muted">开发与问题反馈见仓库：<a href="https://github.com/wlhqdm/hexeye-site">github.com/wlhqdm/hexeye-site</a></p>
     </section>
   </main>
 
   <footer>
     <nav>
+      <a href="#disclaimer">Disclaimer</a>
       <a href="privacy.html">Privacy</a>
       <a href="terms.html">Terms</a>
       <a href="https://github.com/wlhqdm/hexeye-site">GitHub</a>
